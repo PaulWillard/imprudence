@@ -215,7 +215,7 @@ if (DARWIN)
     llcommon
     PROPERTIES
     BUILD_WITH_INSTALL_RPATH 1
-    INSTALL_NAME_DIR "@executable_path/../Resources"
+    INSTALL_NAME_DIR "@executable_path"
     )
 endif (DARWIN)
 

@@ -191,7 +191,7 @@ LLDir_Mac::LLDir_Mac()
 		
 		mWorkingDir = getCurPath();
 
-		mLLPluginDir = mAppRODataDir + mDirDelimiter + "llplugin";
+		mLLPluginDir = mAppRODataDir + mDirDelimiter + "SLPlugin.app/Contents/MacOS";
 				
 		CFRelease(executableURLRef);
 		executableURLRef = NULL;
