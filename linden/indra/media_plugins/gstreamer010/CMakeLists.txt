@@ -65,4 +65,19 @@ add_dependencies(media_plugin_gstreamer010
   ${LLCOMMON_LIBRARIES}
 )
 
+if (DARWIN)
+  include(CMakeFindFrameworks)
+  find_library(CARBON_LIBRARY Carbon)
+  target_link_libraries(media_plugin_gstreamer010 ${CARBON_LIBRARY})
 
+  # Don't prepend 'lib' to the executable name, and don't embed a full
+  # path in the library's install name
+  set_target_properties(
+    media_plugin_gstreamer010
+    PROPERTIES
+    PREFIX ""
+    BUILD_WITH_INSTALL_RPATH 1
+    INSTALL_NAME_DIR "@executable_path"
+    LINK_FLAGS "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/../base/media_plugin_base.exp"
+  )
+endif (DARWIN)

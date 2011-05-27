@@ -15,6 +15,7 @@ if (WINDOWS)
 endif (WINDOWS)
 
 if (DARWIN)
+    add_subdirectory(gstreamer010)
     add_subdirectory(quicktime)
 endif (DARWIN)
 

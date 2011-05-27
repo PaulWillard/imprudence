@@ -10,24 +10,39 @@ if (STANDALONE)
 else (STANDALONE)
 
   # Possibly libxml and glib should have their own .cmake file instead...
-  use_prebuilt_binary(gstreamer)	# includes glib, libxml, and iconv on Windows
+  use_prebuilt_binary(gstreamer) # includes glib, libxml, and iconv on Windows
   use_prebuilt_binary(gstreamer-plugins)
+
   set(GSTREAMER010_FOUND ON FORCE BOOL)
   set(GSTREAMER010_PLUGINS_BASE_FOUND ON FORCE BOOL)
+
   if (WINDOWS)
     set(GSTREAMER010_INCLUDE_DIRS
-		${LIBS_PREBUILT_DIR}/include/gstreamer-0.10
-		${LIBS_PREBUILT_DIR}/include/glib
-		${LIBS_PREBUILT_DIR}/include/libxml2
-		)
-  else (WINDOWS)
-    use_prebuilt_binary(glib)			# gstreamer needs glib
-	use_prebuilt_binary(libxml)
-	set(GSTREAMER010_INCLUDE_DIRS
-		${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/gstreamer-0.10
-		${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/glib-2.0
-		${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/libxml2
-		)
+      ${LIBS_PREBUILT_DIR}/include/gstreamer-0.10
+      ${LIBS_PREBUILT_DIR}/include/glib
+      ${LIBS_PREBUILT_DIR}/include/libxml2
+      )
+  elseif (LINUX)
+    use_prebuilt_binary(glib)
+    use_prebuilt_binary(libxml)
+    set(GSTREAMER010_INCLUDE_DIRS
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/gstreamer-0.10
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/glib-2.0
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/libxml2
+      )
+  elseif (DARWIN)
+    use_prebuilt_binary(flac)
+    use_prebuilt_binary(glib)
+    use_prebuilt_binary(liboil)
+    use_prebuilt_binary(libxml)
+    use_prebuilt_binary(neon)
+    use_prebuilt_binary(ogg-vorbis)
+    use_prebuilt_binary(theora)
+    set(GSTREAMER010_INCLUDE_DIRS
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/gstreamer-0.10
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/glib-2.0
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/libxml2
+      )
   endif (WINDOWS)
 
 endif (STANDALONE)
@@ -46,7 +61,7 @@ if (WINDOWS)
          gthread-2.0
          glib-2.0
          )
-else (WINDOWS)
+elseif (LINUX)
   # We don't need to explicitly link against gstreamer itself, because
   # LLMediaImplGStreamer probes for the system's copy at runtime.
     set(GSTREAMER010_LIBRARIES
@@ -61,8 +76,18 @@ else (WINDOWS)
          rt
          glib-2.0
          )
-
-
+elseif (DARWIN)
+    set(GSTREAMER010_LIBRARIES
+         gstvideo-0.10
+         gstaudio-0.10
+         gstbase-0.10
+         gstreamer-0.10
+         gobject-2.0
+         gmodule-2.0
+         gthread-2.0
+         glib-2.0
+         xml2.2
+         )
 endif (WINDOWS)
 
 
